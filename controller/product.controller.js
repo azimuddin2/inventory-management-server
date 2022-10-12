@@ -1,28 +1,68 @@
-const { getProductsService, postProductsService, bulkUpdateProductsService, updateProductByIdService, deleteProductByIdService, bulkDeleteProductsService } = require("../services/product.services")
+const { getProductsService, postProductsService, bulkUpdateProductsService, updateProductByIdService, deleteProductByIdService, bulkDeleteProductsService, getProductByIdService } = require("../services/product.services")
 
 
 exports.getProducts = async (req, res, next) => {
     try {
-        // const products = await Product
-        // .where("name").equals(/\w/)
-        // .where("quantity").gt(100).lt(600)
-        // .limit(2).sort({quantity: -1});
 
-        const queryObject = { ...req.query };
+        let filters = { ...req.query };
 
         // sort, page, limit => exclude
         const excludeFields = ['sort', 'page', 'limit'];
-        excludeFields.forEach(field => delete queryObject[field])
+        excludeFields.forEach(field => delete filters[field])
 
-        console.log('orginal object', req.query);
-        console.log("query object", queryObject);
+        // gt, gte, lt, lte
+        let filtersString = JSON.stringify(filters);
+        filtersString = filtersString.replace(/\b(gt|gte|lt|lte)\b/g, match => `$${match}`)
 
-        const products = await getProductsService(queryObject);
+        filters = JSON.parse(filtersString);
+
+        const queries = {};
+        if (req.query.sort) {
+            // price,quantity => 'price quantity'
+            const sortBy = req.query.sort.split(',').join(' ');
+            queries.sortBy = sortBy
+        }
+
+        if (req.query.fields) {
+            const fields = req.query.fields.split(',').join(' ');
+            queries.fields = fields;
+        }
+
+        if (req.query.page) {
+            const { page = 1, limit = 6 } = req.query;
+
+            const skip = (page - 1) * parseInt(limit);
+            queries.skip = skip;
+            queries.limit = parseInt(limit);
+        }
+
+        const products = await getProductsService(filters, queries);
 
         res.status(200).json({
             status: "success",
             message: "Data load successfully",
             data: products
+        });
+
+    } catch (error) {
+        res.status(400).json({
+            status: "fail",
+            message: "can't get the data",
+            error: error.message
+        });
+    }
+};
+
+
+exports.getProductById = async(req, res, next) => {
+    try {
+        const {id} = req.params;
+        const result = await getProductByIdService (id);
+        
+        res.status(200).json({
+            status: "Success",
+            message: "Data load successfully",
+            data: result
         })
 
     } catch (error) {
@@ -30,7 +70,7 @@ exports.getProducts = async (req, res, next) => {
             status: "fail",
             message: "can't get the data",
             error: error.message
-        })
+        });
     }
 };
 

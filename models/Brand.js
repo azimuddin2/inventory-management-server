@@ -12,24 +12,30 @@ const brandSchema = mongoose.Schema({
         unique: true,
         lowercase: true
     },
+
     description: {
         type: String,
         maxLength: 1000,
     },
+
     email: {
         type: String,
         lowercase: true,
         validate: [validator.isEmail, "Please provide a valid email"]
     },
+
     website: {
         type: String,
         validate: [validator.isURL, "Please provide a valid URL"]
     },
+
     location: String,
+
     products: [{
         type: ObjectId,
         ref: "Product"
     }],
+
     suppliers: [{
         name: String,
         contactNumber: String,
@@ -38,6 +44,7 @@ const brandSchema = mongoose.Schema({
             ref: "Supplier"
         }
     }],
+
     status: {
         type: String,
         enum: ["active", "inactive"],
@@ -52,4 +59,4 @@ const brandSchema = mongoose.Schema({
 const Brand = mongoose.model("Brand", brandSchema);
 
 
-exports = Brand;
+module.exports = Brand;

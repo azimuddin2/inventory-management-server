@@ -10,19 +10,30 @@ const storeSchema = mongoose.Schema({
         required: [true, "Please provide a store name"],
         lowercase: true,
         enum: {
-            values: ["dhaka", "chattogram", "rajshahi", "sylhet", "feni", "rangpur", "khulna"],
+            values: [
+                "dhaka",
+                "chattogram",
+                "rajshahi",
+                "sylhet",
+                "feni",
+                "rangpur",
+                "khulna"
+            ],
             message: "{VALUE} is not a valid name"
         }
     },
+
     description: {
         type: String,
         maxLength: 1000,
     },
+
     status: {
         type: String,
         enum: ["active", "inactive"],
         default: "active"
     },
+
     manager: {
         name: String,
         contactNumber: String,
@@ -40,4 +51,4 @@ const storeSchema = mongoose.Schema({
 const Store = mongoose.model("Store", storeSchema);
 
 
-exports = Store;
+module.exports = Store;

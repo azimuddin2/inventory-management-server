@@ -1,0 +1,34 @@
+[
+    {
+        "name": "chattogram",
+        "description": "Pran Chinigura Aromatic Rice (Polau). Fresh and Clean, Vacuum Packed. Pran Chinigura Rice can be use in Biriyani, Polau, Firni, Kheer, Khichuri.",
+        "manager": {
+            "name": "Azim Uddin",
+            "contactNumber": "01883-061967"
+        }
+    },
+    {
+        "name": "dhaka",
+        "description": "Pran Chinigura Aromatic Rice (Polau). Fresh and Clean, Vacuum Packed. Pran Chinigura Rice can be use in Biriyani, Polau, Firni, Kheer, Khichuri.",
+        "manager": {
+            "name": "Anisul islam",
+            "contactNumber": "01883-068888"
+        }
+    },
+    {
+        "name": "feni",
+        "description": "Pran Chinigura Aromatic Rice (Polau). Fresh and Clean, Vacuum Packed. Pran Chinigura Rice can be use in Biriyani, Polau, Firni, Kheer, Khichuri.",
+        "manager": {
+            "name": "Ali hasan",
+            "contactNumber": "01883-0677777"
+        }
+    },
+    {
+        "name": "sylhet",
+        "description": "Pran Chinigura Aromatic Rice (Polau). Fresh and Clean, Vacuum Packed. Pran Chinigura Rice can be use in Biriyani, Polau, Firni, Kheer, Khichuri.",
+        "manager": {
+            "name": "Shahin",
+            "contactNumber": "01883-065555"
+        }
+    }
+]

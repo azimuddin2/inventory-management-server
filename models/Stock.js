@@ -14,10 +14,9 @@ const stockSchema = mongoose.Schema({
         type: String,
         required: [true, 'Please provide a name for this product.'],
         trim: true,
-        unique: [true, 'Name must be unique'],
         lowercase: true,
         minLength: [3, 'Name must be at least 3 characters.'],
-        maxLength: [16, 'Name is too large']
+        maxLength: [100, 'Name is too large']
     },
 
     description: {
@@ -37,21 +36,7 @@ const stockSchema = mongoose.Schema({
     imageURLs: [{
         type: String,
         required: true,
-        validate: {
-            validator: (value) => {
-                if (!Array.isArray(value)) {
-                    return false;
-                }
-                let isValid = true;
-                value.forEach(url => {
-                    if (!validator.isURL(url)) {
-                        isValid = false;
-                    }
-                });
-                return isValid;
-            },
-            message: "Please provide valid image urls"
-        }
+        validate: [validator.isURL, 'Please provide valid url(s)']
     }],
 
     price: {
@@ -99,7 +84,15 @@ const stockSchema = mongoose.Schema({
             required: [true, "Please provide a store name"],
             lowercase: true,
             enum: {
-                values: ["dhaka", "chattogram", "rajshahi", "sylhet", "feni", "rangpur", "khulna"],
+                values: [
+                    "dhaka",
+                    "chattogram",
+                    "rajshahi",
+                    "sylhet",
+                    "feni",
+                    "rangpur",
+                    "khulna"
+                ],
                 message: "{VALUE} is not a valid name"
             }
         },
@@ -122,13 +115,19 @@ const stockSchema = mongoose.Schema({
         }
     },
 
+    sellCount: {
+        type: Number,
+        default: 0,
+        min: 0
+    }
+
 
 }, {
     timestamps: true,
 });
 
 // mongoose middleware: pre / post
-productSchema.pre('save', function (next) {
+stockSchema.pre('save', function (next) {
     if (this.quantity == 0) {
         this.status = 'out-of-stock'
     }

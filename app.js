@@ -16,6 +16,7 @@ const categoryRoute = require('./routes/category.route');
 const storeRouter = require('./routes/store.route');
 const supplierRouter = require('./routes/supplier.route');
 const stockRouter = require('./routes/stock.route');
+const userRouter = require('./routes/user.route');
 
 
 app.get('/', (req, res) => {
@@ -28,6 +29,7 @@ app.use('/api/v1/category', categoryRoute);
 app.use('/api/v1/store', storeRouter);
 app.use('/api/v1/supplier', supplierRouter);
 app.use('/api/v1/stock', stockRouter);
+app.use('/api/v1/user', userRouter);
 
 
 module.exports = app;
